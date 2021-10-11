@@ -1,5 +1,4 @@
 import 'package:bouncing_widget/bouncing_widget.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -46,6 +45,25 @@ class _SecondScreenState extends State<SecondScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Color.fromRGBO(0, 68, 102, 1),
+          automaticallyImplyLeading: false,
+
+          title: Text("Card Screen",
+              style: GoogleFonts.pacifico(
+                  fontSize: 30, color: Colors.white, letterSpacing: 0.5)),
+          centerTitle: true,
+          elevation: 0,
+          leading: InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Icon(Icons.arrow_back_ios_new_outlined)),
+
+          // leading: Icon(Icons.menu_outlined),
+          actions: <Widget>[],
+        ), // th
         body: SafeArea(
           child: Stack(children: <Widget>[
             Center(
@@ -471,69 +489,143 @@ class _EditScreenState extends State<EditScreen> {
     _controller.text = widget.text;
 
     return Scaffold(
+      backgroundColor: Color.fromRGBO(0, 68, 102, 1),
       appBar: AppBar(
-        backgroundColor: AppColors.menu3Color,
-        title: Text("Edit Text"),
-      ),
-      backgroundColor: Colors.white.withOpacity(0.85), // th
-      body: Material(
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 50,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: TextField(
-                controller: _controller,
+        backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+
+        title: Text("Edit",
+            style: GoogleFonts.pacifico(
+                fontSize: 30, color: Colors.white, letterSpacing: 0.5)),
+        centerTitle: true,
+        elevation: 0,
+        leading: Icon(Icons.arrow_back_ios_new_outlined),
+
+        // leading: Icon(Icons.menu_outlined),
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Container(
+              width: 36,
+              height: 36,
+              child: InkWell(
+                onTap: () {
+                  this.widget.parent.setState(() {
+                    this.widget.parent.widget.text = _controller.text;
+                    this.widget.parent.widget.size = widget._value;
+                    this.widget.parent.widget.color = widget.color;
+                    this.widget.parent.widget.Font = widget.Font;
+                    print("value of parent changed" +
+                        this.widget.parent.widget.Font.toString());
+                  });
+
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.done_all_outlined,
+                  color: AppColors.background,
+                ),
               ),
             ),
-            Slider(
-                value: widget._value,
-                min: 1.0,
-                max: 10.0,
-                divisions: 10,
-                activeColor: Colors.red,
-                inactiveColor: Colors.black,
-                label: 'Set a value',
-                onChanged: (double newValue) {
-                  setState(() {
-                    widget._value = newValue;
-                    print(newValue);
-                  });
-                },
-                semanticFormatterCallback: (double newValue) {
-                  return '${newValue.round()} dollars';
-                }),
-            FloatingActionButton(
-              backgroundColor: AppColors.menu3Color,
-              onPressed: pickColor,
-              child: Icon(Icons.format_paint_outlined),
-            ),
-            ElevatedButton(
-                onPressed: () async {
-                  await showBottomsheet();
-                },
-                child: Text("Choose Font")),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(primary: AppColors.menu3Color),
-              onPressed: () {
-                this.widget.parent.setState(() {
-                  this.widget.parent.widget.text = _controller.text;
-                  this.widget.parent.widget.size = widget._value;
-                  this.widget.parent.widget.color = widget.color;
-                  this.widget.parent.widget.Font = widget.Font;
-                  print("value of parent changed" +
-                      this.widget.parent.widget.Font.toString());
-                });
-
-                Navigator.pop(context);
-              },
-              child: Text("OK"),
-            ),
-          ],
+          )
+        ],
+      ), // th
+      body: SafeArea(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          color: AppColors.background,
+          child: Stack(
+            // mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              // SizedBox(
+              //   height: 150,
+              // ),
+              Padding(
+                padding: const EdgeInsets.only(top: 100.0, left: 16, right: 16),
+                child: TextField(
+                  controller: _controller,
+                ),
+              ),
+              Slider(
+                  value: widget._value,
+                  min: 1.0,
+                  max: 10.0,
+                  divisions: 10,
+                  activeColor: Colors.red,
+                  inactiveColor: Colors.black,
+                  label: 'Set a value',
+                  onChanged: (double newValue) {
+                    setState(() {
+                      widget._value = newValue;
+                      print(newValue);
+                    });
+                  },
+                  semanticFormatterCallback: (double newValue) {
+                    return '${newValue.round()} dollars';
+                  }),
+              // FloatingActionButton(
+              //   backgroundColor: AppColors.menu3Color,
+              //   onPressed: pickColor,
+              //   child: Icon(Icons.format_paint_outlined),
+              // ),
+              // ElevatedButton(
+              //     onPressed: () async {
+              //       await showBottomsheet();
+              //     },
+              //     child: Text("Choose Font")),
+              // ElevatedButton(
+              //   style: ElevatedButton.styleFrom(primary: AppColors.menu3Color),
+              //   onPressed: () {},
+              //   child: Text("OK"),
+              // ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.095,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(0, 68, 102, 1),
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(25)),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(14.0),
+                        child: FloatingActionButton(
+                          backgroundColor: Colors.red,
+                          onPressed: () {},
+                          child: Icon(Icons.add),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(14.0),
+                        child: FloatingActionButton(
+                          backgroundColor: Colors.amber,
+                          onPressed: pickColor,
+                          child: Icon(Icons.format_paint_outlined),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(14.0),
+                        child: FloatingActionButton(
+                          backgroundColor: Colors.green,
+                          onPressed: () async {
+                            await showBottomsheet();
+                          },
+                          child: Icon(Icons.font_download_outlined),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
-      ), //
+      ),
     );
   }
 
